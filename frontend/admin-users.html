@@ -195,7 +195,7 @@
 
 function loadUsers() {
 
-  fetch("http://vishwpandhariyatrinivas.onrender.com/all-users")
+  fetch("https://vishwpandhariyatrinivas.onrender.com/all-users")
 
   .then(res => res.json())
 
@@ -260,7 +260,7 @@ function deleteUser(id){
 
   if(confirm("Delete this user?")){
 
-    fetch("http://vishwpandhariyatrinivas.onrender.com/delete-user/" + id,{
+    fetch("https://vishwpandhariyatrinivas.onrender.com/delete-user/" + id,{
       method:"DELETE"
     })
 

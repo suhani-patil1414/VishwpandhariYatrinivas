@@ -170,7 +170,7 @@ if (!localStorage.getItem("admin")) {
 
 // ================= LOAD ROOMS =================
 function loadRooms() {
-  fetch("http://vishwpandhariyatrinivas.onrender.com/rooms")
+  fetch("https://vishwpandhariyatrinivas.onrender.com/rooms")
     .then(res => res.json())
     .then(data => {
       let html = "";
@@ -207,7 +207,7 @@ function addRoom() {
 
   // 👉 UPDATE MODE
   if (window.editId) {
-    fetch(`http://vishwpandhariyatrinivas.onrender.com/admin/update-room/${window.editId}`, {
+    fetch(`https://vishwpandhariyatrinivas.onrender.com/admin/update-room/${window.editId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -223,7 +223,7 @@ function addRoom() {
 
   } else {
     // 👉 ADD MODE
-    fetch("http://vishwpandhariyatrinivas.onrender.com/admin/add-room", {
+    fetch("https://vishwpandhariyatrinivas.onrender.com/admin/add-room", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -263,7 +263,7 @@ function editRoom(id, type, price, total, image, description) {
 function deleteRoom(id) {
   if (!confirm("Are you sure to delete this room?")) return;
 
-  fetch(`http://vishwpandhariyatrinivas.onrender.com/admin/delete-room/${id}`, {
+  fetch(`https://vishwpandhariyatrinivas.onrender.com/admin/delete-room/${id}`, {
     method: "DELETE"
   })
   .then(res => res.json())

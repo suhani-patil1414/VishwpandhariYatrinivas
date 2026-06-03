@@ -185,7 +185,7 @@
   if(!confirm("Approve this enquiry?")) return;
 
   fetch(
-    "http://vishwpandhariyatrinivas.onrender.com/approve-enquiry/" + id,
+    "https://vishwpandhariyatrinivas.onrender.com/approve-enquiry/" + id,
     {
       method:"PUT"
     }
@@ -208,7 +208,7 @@ function deleteEnquiry(id){
   if(!confirm("Delete this enquiry?")) return;
 
   fetch(
-    "http://vishwpandhariyatrinivas.onrender.com/delete-enquiry/" + id,
+    "https://vishwpandhariyatrinivas.onrender.com/delete-enquiry/" + id,
     {
       method:"DELETE"
     }
@@ -228,7 +228,7 @@ function deleteEnquiry(id){
 
 function loadEnquiries(){
 
-  fetch("http://vishwpandhariyatrinivas.onrender.com/all-enquiries")
+  fetch("https://vishwpandhariyatrinivas.onrender.com/all-enquiries")
 
   .then(res => res.json())
 
@@ -305,7 +305,7 @@ function deleteEnquiry(id){
 
   if(!confirm("Delete enquiry?")) return;
 
-  fetch("http://vishwpandhariyatrinivas.onrender.com/delete-enquiry/" + id, {
+  fetch("https://vishwpandhariyatrinivas.onrender.com/delete-enquiry/" + id, {
 
     method:"DELETE"
 

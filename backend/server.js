@@ -998,7 +998,7 @@ app.get("/", (req, res) => {
 
 // ================= SERVER =================
 // app.listen(5000, () => {
-//   console.log("Server running on http://vishwpandhariyatrinivas.onrender.com 🚀");
+//   console.log("Server running on https://vishwpandhariyatrinivas.onrender.com 🚀");
 // });
 
 const PORT = process.env.PORT || 5000;
