@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - Enquiries</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial;
+    }
+
+    body{
+      background:#f5f5f5;
+    }
+
+    .navbar{
+      width:100%;
+      background:white;
+      padding:15px 40px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      box-shadow:0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom:30px;
+    }
+
+    .logo{
+      font-size:28px;
+      font-weight:bold;
+      color:#ff7a00;
+    }
+
+    .nav-links{
+      display:flex;
+      gap:25px;
+      list-style:none;
+    }
+
+    .nav-links a{
+      text-decoration:none;
+      color:#222;
+      font-weight:600;
+    }
+
+    .nav-links a:hover{
+      color:#ff7a00;
+    }
+
+    h2{
+      text-align:center;
+      margin-bottom:25px;
+    }
+
+    table{
+      width:95%;
+      margin:auto;
+      border-collapse:collapse;
+      background:white;
+      box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    th{
+      background:#ff9800;
+      color:white;
+      padding:14px;
+    }
+
+    td{
+      padding:12px;
+      border-bottom:1px solid #eee;
+      text-align:center;
+    }
+
+    tr:hover{
+      background:#fafafa;
+    }
+
+    .delete-btn{
+      background:red;
+      color:white;
+      border:none;
+      padding:7px 12px;
+      border-radius:5px;
+      cursor:pointer;
+    }
+
+    .report-btn{
+  background:#ff6f00;
+  color:white;
+  border:none;
+  padding:12px 20px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:15px;
+  font-weight:bold;
+}
+
+.report-btn:hover{
+  background:#e66000;
+}
+
+  </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+  <div class="logo">
+    Vishwpandhari Yatrinivas
+  </div>
+
+  <ul class="nav-links">
+
+    <li><a href="admin-dashboard.html">Dashboard</a></li>
+
+    <li><a href="admin-rooms.html">Rooms</a></li>
+
+    <li><a href="admin-bookings.html">Bookings</a></li>
+
+    <li><a href="admin-users.html">Users</a></li>
+
+    <li><a href="admin-testimonials.html">Reviews</a></li>
+
+    <li><a href="admin-enquiries.html">Enquiries</a></li>
+
+  </ul>
+
+</nav>
+
+<h2>📩 All Enquiries</h2>
+
+<div style="
+  width:100%;
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:15px;
+">
+
+  <button class="report-btn" onclick="downloadEnquiriesPDF()">
+    Download Enquiries PDF
+  </button>
+
+</div>
+
+<table id="enquiriesReport">
+
+  <thead>
+
+    <tr>
+
+      <th>ID</th>
+
+      <th>Name</th>
+
+      <th>Phone</th>
+
+      <th>Email</th>
+
+      <th>Check-In</th>
+
+      <th>Room</th>
+
+      <th>Message</th>
+
+      <th>Action</th>
+
+    </tr>
+
+  </thead>
+
+  <tbody id="enquiryTable"></tbody>
+
+</table>
+
+<script>
+
+  function approveEnquiry(id){
+
+  if(!confirm("Approve this enquiry?")) return;
+
+  fetch(
+    "http://localhost:5000/approve-enquiry/" + id,
+    {
+      method:"PUT"
+    }
+  )
+
+  .then(res => res.json())
+
+  .then(data => {
+
+    alert("Approved ✅");
+
+    loadEnquiries();
+
+  });
+
+}
+
+function deleteEnquiry(id){
+
+  if(!confirm("Delete this enquiry?")) return;
+
+  fetch(
+    "http://localhost:5000/delete-enquiry/" + id,
+    {
+      method:"DELETE"
+    }
+  )
+
+  .then(res => res.json())
+
+  .then(data => {
+
+    alert("Deleted ❌");
+
+    loadEnquiries();
+
+  });
+
+}
+
+function loadEnquiries(){
+
+  fetch("http://localhost:5000/all-enquiries")
+
+  .then(res => res.json())
+
+  .then(data => {
+
+    let html = "";
+
+    data.forEach(e => {
+
+      html += `
+
+      <tr>
+
+        <td>${e.id}</td>
+
+        <td>${e.full_name}</td>
+
+        <td>${e.phone}</td>
+
+        <td>${e.email}</td>
+
+        <td>${new Date(e.checkin_date).toLocaleDateString()}</td>
+
+        <td>${e.room_type}</td>
+
+        <td>${e.message}</td>
+
+        <td>
+
+  <button
+    onclick="approveEnquiry(${e.id})"
+    style="
+      background:green;
+      color:white;
+      border:none;
+      padding:7px 12px;
+      border-radius:5px;
+      cursor:pointer;
+      margin-right:5px;
+    "
+  >
+    Approve
+  </button>
+
+  <button
+    onclick="deleteEnquiry(${e.id})"
+    style="
+      background:red;
+      color:white;
+      border:none;
+      padding:7px 12px;
+      border-radius:5px;
+      cursor:pointer;
+    "
+  >
+    Delete
+  </button>
+
+</td>
+
+      </tr>
+
+      `;
+
+    });
+
+    document.getElementById("enquiryTable").innerHTML = html;
+
+  });
+
+}
+
+function deleteEnquiry(id){
+
+  if(!confirm("Delete enquiry?")) return;
+
+  fetch("http://localhost:5000/delete-enquiry/" + id, {
+
+    method:"DELETE"
+
+  })
+
+  .then(res => res.json())
+
+  .then(data => {
+
+    alert("Deleted ✅");
+
+    loadEnquiries();
+
+  });
+
+}
+
+window.onload = loadEnquiries;
+
+// ================= DOWNLOAD ENQUIRIES PDF =================
+
+function downloadEnquiriesPDF(){
+
+  const table = document.getElementById("enquiriesReport");
+
+  const cloneTable = table.cloneNode(true);
+
+  // APPROVE + DELETE BUTTON COLUMN REMOVE
+  cloneTable.querySelectorAll("tr").forEach(row => {
+
+    if(row.cells.length > 7){
+      row.deleteCell(7);
+    }
+
+  });
+
+  const element = document.createElement("div");
+
+  element.innerHTML = `
+    <h1 style="
+      text-align:center;
+      color:#ff6f00;
+      margin-bottom:20px;
+      font-family:Arial;
+    ">
+      Vishwpandhari Yatrinivas - Enquiries Report
+    </h1>
+  `;
+
+  element.appendChild(cloneTable);
+
+  const opt = {
+
+    margin:0.5,
+
+    filename:"Enquiries_Report.pdf",
+
+    image:{
+      type:"jpeg",
+      quality:1
+    },
+
+    html2canvas:{
+      scale:2
+    },
+
+    jsPDF:{
+      unit:"in",
+      format:"a3",
+      orientation:"landscape"
+    }
+
+  };
+
+  html2pdf().set(opt).from(element).save();
+
+}
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+</body>
+</html>

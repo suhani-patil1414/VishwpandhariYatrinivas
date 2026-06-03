@@ -1,0 +1,104 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.875rem;
+
+    /* Warm cream background */
+    --background: 0.975 0.012 75;
+    --foreground: 0.22 0.04 55;
+
+    /* Cards: warm white */
+    --card: 0.99 0.006 75;
+    --card-foreground: 0.22 0.04 55;
+
+    --popover: 0.99 0.006 75;
+    --popover-foreground: 0.22 0.04 55;
+
+    /* Primary: saffron-orange */
+    --primary: 0.62 0.18 50;
+    --primary-foreground: 0.99 0.006 75;
+
+    /* Secondary: light gold */
+    --secondary: 0.91 0.06 80;
+    --secondary-foreground: 0.35 0.06 55;
+
+    /* Muted: warm beige */
+    --muted: 0.94 0.018 75;
+    --muted-foreground: 0.52 0.04 60;
+
+    /* Accent: gold */
+    --accent: 0.78 0.12 72;
+    --accent-foreground: 0.22 0.04 55;
+
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+
+    --border: 0.88 0.025 75;
+    --input: 0.88 0.025 75;
+    --ring: 0.62 0.18 50;
+
+    --chart-1: 0.62 0.18 50;
+    --chart-2: 0.78 0.12 72;
+    --chart-3: 0.55 0.12 45;
+    --chart-4: 0.7 0.1 80;
+    --chart-5: 0.45 0.08 55;
+
+    --sidebar: 0.975 0.012 75;
+    --sidebar-foreground: 0.22 0.04 55;
+    --sidebar-primary: 0.62 0.18 50;
+    --sidebar-primary-foreground: 0.99 0.006 75;
+    --sidebar-accent: 0.94 0.018 75;
+    --sidebar-accent-foreground: 0.22 0.04 55;
+    --sidebar-border: 0.88 0.025 75;
+    --sidebar-ring: 0.62 0.18 50;
+  }
+
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "DM Sans", sans-serif;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: "Playfair Display", serif;
+  }
+  .text-saffron {
+    color: oklch(0.62 0.18 50);
+  }
+  .bg-saffron {
+    background-color: oklch(0.62 0.18 50);
+  }
+  .bg-saffron-light {
+    background-color: oklch(0.95 0.04 60);
+  }
+  .text-gold {
+    color: oklch(0.65 0.12 72);
+  }
+  .bg-gold {
+    background-color: oklch(0.78 0.12 72);
+  }
+  .border-saffron {
+    border-color: oklch(0.62 0.18 50);
+  }
+  .shadow-warm {
+    box-shadow: 0 4px 24px -4px oklch(0.62 0.18 50 / 0.15), 0 2px 8px -2px
+      oklch(0.22 0.04 55 / 0.08);
+  }
+  .shadow-card {
+    box-shadow: 0 2px 16px -2px oklch(0.22 0.04 55 / 0.1), 0 1px 4px -1px
+      oklch(0.22 0.04 55 / 0.06);
+  }
+}
+

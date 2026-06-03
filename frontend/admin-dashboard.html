@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+
+<style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --saffron: #E8732A;
+      --saffron-light: #F4965A;
+      --saffron-dark: #C45C18;
+      --gold: #D4A017;
+      --gold-light: #F0C040;
+      --cream: #FDF6EC;
+      --cream-dark: #F5E8D0;
+      --white: #FFFFFF;
+      --brown: #6B3E1E;
+      --brown-light: #8B5E3C;
+      --text-dark: #2C1A0E;
+      --text-mid: #5A3A20;
+      --text-light: #8B6E5A;
+      --shadow: 0 4px 20px rgba(107,62,30,0.12);
+      --shadow-hover: 0 8px 32px rgba(107,62,30,0.22);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      line-height: 1.7;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ========== NAVBAR ========== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.97);
+      box-shadow: 0 2px 16px rgba(107,62,30,0.10);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 68px;
+      border-bottom: 2px solid var(--gold-light);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo .logo-icon {
+      width: 50px; height: 50px;
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px;
+      box-shadow: 0 2px 8px rgba(232,115,42,0.3);
+    }
+    .nav-logo .logo-text {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--brown);
+      line-height: 1.2;
+    }
+    .nav-logo .logo-sub {
+      font-size: 0.7rem;
+      color: var(--saffron);
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 4px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-mid);
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all 0.2s;
+      letter-spacing: 0.3px;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: var(--cream-dark);
+      color: var(--saffron-dark);
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      border: none;
+      background: none;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 26px; height: 2.5px;
+      background: var(--brown);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      .nav-toggle { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 68px; left: 0; right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 16px 24px 24px;
+        box-shadow: 0 8px 24px rgba(107,62,30,0.15);
+        border-bottom: 2px solid var(--gold-light);
+        gap: 2px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 10px 14px; font-size: 0.95rem; }
+    }
+
+
+/* ===== HERO BACKGROUND ===== */
+.hero {
+  height: 90vh;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+  url('https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1600') no-repeat center/cover;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+.hero-content {
+  max-width: 800px;
+}
+
+.cards {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.card {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 10px;
+  width: 180px;
+  text-align: center;
+}
+
+.card h2 {
+  color: #ff6600;
+}
+
+.card button {
+  margin-top: 10px;
+  padding: 6px 12px;
+  background: #ff6600;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <div class="logo-icon">🕌</div>
+    <div>
+      <div class="logo-text">Vishwpandhari</div>
+      <div class="logo-sub">Yatrinivas</div>
+    </div>
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#rooms">Rooms</a></li>
+    <li><a href="index.html#amenities">Amenities</a></li>
+    <li><a href="index.html#gallery">Gallery</a></li>
+    <li><a href="index.html#testimonials">Testimonials</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+   <!-- USER BOOKINGS -->
+<li id="bookingNav" style="display:none;">
+  <a href="my-bookings.html">My Bookings</a>
+</li>
+
+<!-- ADMIN DASHBOARD -->
+<li id="dashboardNav" style="display:none;">
+  <a href="admin-dashboard.html">Dashboard</a>
+</li>
+
+<!-- LOGIN / REGISTER -->
+<li id="loginBtn">
+  <a href="#" onclick="showLogin()">Login</a>
+</li>
+
+<li id="registerBtn">
+  <a href="#" onclick="showRegister()">Register</a>
+</li>
+
+<!-- USER / ADMIN NAME -->
+<li id="userName" style="display:none;"></li>
+
+<!-- LOGOUT -->
+<li id="logoutBtn" style="display:none;">
+  <a href="#" onclick="logoutUser()">Logout</a>
+</li>
+  </ul>
+
+</nav>
+
+
+<!-- ===== HERO ===== -->
+<div class="hero" id="dashboard">
+  <div class="hero-content">
+    <h1>Welcome Admin 👨‍💼</h1>
+    <p>Manage your system easily</p>
+
+    <!-- ✅ CARDS INSIDE HERO -->
+    <div class="cards">
+      <div class="card">
+        <h2>Rooms</h2>
+        <button onclick="goRooms()">Open</button>
+      </div>
+
+      <div class="card">
+        <h2>Bookings</h2>
+        <button onclick="window.location.href='admin-bookings.html'">
+  Open
+</button>
+      </div>
+
+      <div class="card">
+        <h2>Users</h2>
+        <button onclick="window.location.href='admin-users.html'">
+        Open
+        </button>
+      </div>
+
+      <div class="card">
+  <h2>Reviews</h2>
+
+  <button onclick="window.location.href='admin-testimonials.html'">
+    Open
+  </button>
+</div>
+
+
+<div class="card">
+  <h2>Enquiries</h2>
+
+  <button onclick="window.location.href='admin-enquiries.html'">
+    Open
+  </button>
+</div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+
+  function goBookings() {
+  window.location.href = "admin-bookings.html";
+}
+
+  // ================= NAVBAR CONTROL =================
+function updateNavbar() {
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  const admin = localStorage.getItem("admin") === "true";
+
+  const userName = document.getElementById("userName");
+  const loginBtn = document.getElementById("loginBtn");
+  const registerBtn = document.getElementById("registerBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const bookingNav = document.getElementById("bookingNav");
+  const dashboardNav = document.getElementById("dashboardNav");
+
+  // RESET
+  if (bookingNav) bookingNav.style.display = "none";
+  if (dashboardNav) dashboardNav.style.display = "none";
+
+  // ================= ADMIN =================
+  if (admin) {
+    if (userName) {
+      userName.innerText = "👨‍💼 Admin";
+      userName.style.display = "inline";
+    }
+
+    if (logoutBtn) logoutBtn.style.display = "inline";
+    if (loginBtn) loginBtn.style.display = "none";
+    if (registerBtn) registerBtn.style.display = "none";
+
+    if (dashboardNav) dashboardNav.style.display = "inline-block";
+  }
+
+  // ================= USER =================
+  else if (user) {
+    if (userName) {
+      userName.innerText = "👤 " + user.name;
+      userName.style.display = "inline";
+    }
+
+    if (logoutBtn) logoutBtn.style.display = "inline";
+    if (loginBtn) loginBtn.style.display = "none";
+    if (registerBtn) registerBtn.style.display = "none";
+
+    if (bookingNav) bookingNav.style.display = "inline-block";
+  }
+
+  // ================= GUEST =================
+  else {
+    if (userName) userName.style.display = "none";
+    if (logoutBtn) logoutBtn.style.display = "none";
+
+    if (loginBtn) loginBtn.style.display = "inline";
+    if (registerBtn) registerBtn.style.display = "inline";
+  }
+}
+
+// ================= LOGOUT =================
+function logoutUser() {
+  localStorage.removeItem("loggedInUser");
+  localStorage.removeItem("admin");
+
+  window.location.href = "index.html";
+}
+
+// ================= PAGE LOAD =================
+window.onload = function () {
+  updateNavbar();
+
+  // 🔐 admin protection
+  const admin = localStorage.getItem("admin") === "true";
+  if (!admin) {
+    alert("Access Denied ❌");
+    window.location.href = "index.html";
+  }
+};
+
+function logoutAdmin() {
+  localStorage.removeItem("admin");
+  window.location.href = "index.html";
+}
+
+function goRooms() {
+  window.location.href = "admin-rooms.html";
+}
+</script>
+
+</body>
+</html>
+

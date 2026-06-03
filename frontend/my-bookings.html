@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Bookings</title>
+
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --saffron: #E8732A;
+      --saffron-light: #F4965A;
+      --saffron-dark: #C45C18;
+      --gold: #D4A017;
+      --gold-light: #F0C040;
+      --cream: #FDF6EC;
+      --cream-dark: #F5E8D0;
+      --white: #FFFFFF;
+      --brown: #6B3E1E;
+      --brown-light: #8B5E3C;
+      --text-dark: #2C1A0E;
+      --text-mid: #5A3A20;
+      --text-light: #8B6E5A;
+      --shadow: 0 4px 20px rgba(107,62,30,0.12);
+      --shadow-hover: 0 8px 32px rgba(107,62,30,0.22);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      line-height: 1.7;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .booking-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      margin: 0;
+      color: #ff7a00;
+    }
+
+    .card p {
+      margin: 5px 0;
+      color: #555;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-weight: bold;
+      color: green;
+    }
+
+    .no-data {
+      text-align: center;
+      color: #777;
+    }
+
+    #search {
+  display: block;
+  margin: 0 auto 20px;
+}
+
+ /* ========== NAVBAR ========== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.97);
+      box-shadow: 0 2px 16px rgba(107,62,30,0.10);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 68px;
+      border-bottom: 2px solid var(--gold-light);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo .logo-icon {
+      width: 50px; height: 50px;
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px;
+      box-shadow: 0 2px 8px rgba(232,115,42,0.3);
+    }
+    .nav-logo .logo-text {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--brown);
+      line-height: 1.2;
+    }
+    .nav-logo .logo-sub {
+      font-size: 0.7rem;
+      color: var(--saffron);
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 4px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-mid);
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all 0.2s;
+      letter-spacing: 0.3px;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: var(--cream-dark);
+      color: var(--saffron-dark);
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      border: none;
+      background: none;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 26px; height: 2.5px;
+      background: var(--brown);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      .nav-toggle { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 68px; left: 0; right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 16px 24px 24px;
+        box-shadow: 0 8px 24px rgba(107,62,30,0.15);
+        border-bottom: 2px solid var(--gold-light);
+        gap: 2px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 10px 14px; font-size: 0.95rem; }
+    }
+
+    .title {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.booking-table {
+  width: 95%;
+  margin: auto;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.booking-table th {
+  background: #ff6f00;
+  color: white;
+  padding: 12px;
+}
+
+.booking-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+
+.booking-table tr:hover {
+  background: #f9f9f9;
+}
+
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <div class="logo-icon">🕌</div>
+    <div>
+      <div class="logo-text">Vishwpandhari</div>
+      <div class="logo-sub">Yatrinivas</div>
+    </div>
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#rooms">Rooms</a></li>
+    <li><a href="index.html#amenities">Amenities</a></li>
+    <li><a href="index.html#gallery">Gallery</a></li>
+    <li><a href="index.html#testimonials">Testimonials</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+    <!-- USER BOOKINGS -->
+<li id="bookingNav" style="display:none;">
+  <a href="my-bookings.html">My Bookings</a>
+</li>
+
+<!-- ADMIN DASHBOARD -->
+<li id="dashboardNav" style="display:none;">
+  <a href="admin-dashboard.html">Dashboard</a>
+</li>
+
+<!-- LOGIN / REGISTER -->
+<li id="loginBtn">
+  <a href="#" onclick="showLogin()">Login</a>
+</li>
+
+<li id="registerBtn">
+  <a href="#" onclick="showRegister()">Register</a>
+</li>
+
+<!-- USER / ADMIN NAME -->
+<li id="userName" style="display:none;"></li>
+
+<!-- LOGOUT -->
+<li id="logoutBtn" style="display:none;">
+  <a href="#" onclick="logout()">Logout</a>
+</li>
+  </ul>
+
+</nav>
+
+<h2 class="title">My Bookings 🏨</h2>
+
+<table class="booking-table">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>User</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Room</th>
+    <th>Room ID</th>
+    <th>Check-In</th>
+    <th>Check-Out</th>
+    <th>Guests</th>
+    <th>Total</th>
+    <th>Status</th>
+    <th>Booked On</th>
+    <th>Actions</th>
+  </tr>
+</thead>
+
+  <tbody id="bookingTableBody">
+    <!-- JS data येईल इथे -->
+  </tbody>
+</table>
+
+<script>
+
+// ================= SHOW USER =================
+// ================= NAVBAR CONTROL =================
+// ================= NAVBAR CONTROL =================
+// ================= DATE FORMAT =================
+function formatDateTime(dateStr) {
+  if (!dateStr) return "-";
+
+  const date = new Date(dateStr);
+  if (isNaN(date)) return "-";
+
+  return date.toLocaleString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true
+  });
+}
+
+// ================= NAVBAR =================
+function updateNavbar() {
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  const admin = localStorage.getItem("admin");
+
+  const userName = document.getElementById("userName");
+  const loginBtn = document.getElementById("loginBtn");
+  const registerBtn = document.getElementById("registerBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const bookingNav = document.getElementById("bookingNav");
+  const dashboardNav = document.getElementById("dashboardNav");
+
+  if (userName) userName.style.display = "none";
+  if (logoutBtn) logoutBtn.style.display = "none";
+  if (bookingNav) bookingNav.style.display = "none";
+  if (dashboardNav) dashboardNav.style.display = "none";
+
+  if (loginBtn) loginBtn.style.display = "inline";
+  if (registerBtn) registerBtn.style.display = "inline";
+
+  if (admin) {
+    userName.innerText = "👨‍💼 Admin";
+    userName.style.display = "inline";
+    logoutBtn.style.display = "inline";
+    dashboardNav.style.display = "inline-block";
+    loginBtn.style.display = "none";
+    registerBtn.style.display = "none";
+  } 
+  else if (user) {
+    userName.innerText = "👤 " + user.name;
+    userName.style.display = "inline";
+    logoutBtn.style.display = "inline";
+    bookingNav.style.display = "inline-block";
+    loginBtn.style.display = "none";
+    registerBtn.style.display = "none";
+  }
+}
+
+// ================= LOGOUT =================
+function logout() {
+  localStorage.removeItem("loggedInUser");
+  localStorage.removeItem("admin");
+  window.location.href = "index.html";
+}
+
+// ================= LOAD BOOKINGS =================
+
+function formatDate(dateStr) {
+
+  if (!dateStr) return "-";
+
+  const date = new Date(dateStr);
+
+  return date.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  });
+}
+
+function formatTime(timeStr) {
+
+  if (!timeStr) return "-";
+
+  // already am/pm असेल तर direct return
+  if (
+    timeStr.toLowerCase().includes("am") ||
+    timeStr.toLowerCase().includes("pm")
+  ) {
+    return timeStr;
+  }
+
+  const [hour, minute] = timeStr.split(":");
+
+  let h = parseInt(hour);
+
+  let ampm = h >= 12 ? "pm" : "am";
+
+  h = h % 12;
+
+  h = h ? h : 12;
+
+  return `${h}:${minute} ${ampm}`;
+}
+
+
+function loadBookings(filter = "") {
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+
+  if (!user) {
+    alert("Please login first ❌");
+    window.location.href = "index.html";
+    return;
+  }
+
+  fetch("http://localhost:5000/my-bookings/" + user.id)
+    .then(res => {
+      if (!res.ok) throw new Error("API not working ❌");
+      return res.json();
+    })
+    .then(response => {
+      console.log("API RESPONSE 👉", response);
+
+      let bookings = response.data || response || [];
+
+      const tbody = document.getElementById("bookingTableBody");
+      tbody.innerHTML = "";
+
+      if (!Array.isArray(bookings) || bookings.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="13">No bookings found 😢</td>
+          </tr>
+        `;
+        return;
+      }
+
+      const filtered = bookings.filter(b =>
+        (b.room_type || "").toLowerCase().includes(filter.toLowerCase())
+      );
+
+      filtered.forEach(b => {
+
+  tbody.innerHTML += `
+    <tr id="booking-${b.id}">
+      <td>${b.id || "-"}</td>
+      <td>${b.user_name || "-"}</td>
+      <td>${b.email || "-"}</td>
+      <td>${b.phone || "-"}</td>
+      <td>${b.room_type || "-"}</td>
+      <td>${b.room_id || "-"}</td>
+
+      <td>
+  ${formatDate(b.check_in)}<br>
+  <small>${formatTime(b.check_in_time)}</small>
+</td>
+
+<td>
+  ${formatDate(b.check_out)}<br>
+  <small>${formatTime(b.check_out_time)}</small>
+</td>
+
+      <td>${b.guests || "-"}</td>
+
+      <!-- ✅ PRICE DIRECT -->
+      <td>₹${b.price ?? 0}</td>
+
+      <td style="color: green; font-weight: bold;">
+        ${b.status || "Confirmed"}
+      </td>
+
+      <td>${formatDateTime(b.created_at)}</td>
+
+      <td>
+        <button onclick="cancelBooking(${b.id})">❌</button>
+        <button onclick="downloadPDF(${b.id})">📄</button>
+      </td>
+    </tr>
+  `;
+});
+    })
+    .catch(err => {
+      console.error("ERROR 👉", err);
+
+      document.getElementById("bookingTableBody").innerHTML =
+        `<tr><td colspan="13">Error loading bookings ❌</td></tr>`;
+    });
+}
+
+
+// ================= CANCEL =================
+function cancelBooking(id) {
+  if (!confirm("Are you sure to cancel booking? ❌")) return;
+
+  fetch("http://localhost:5000/cancel-booking/" + id, {
+    method: "DELETE"
+  })
+    .then(res => res.json())
+    .then(() => {
+      alert("Booking Cancelled ❌");
+      loadBookings();
+    });
+}
+
+// ================= PDF =================
+// ================= PDF =================
+function downloadPDF(id) {
+
+  const row = document.getElementById("booking-" + id);
+
+  const cells = row.getElementsByTagName("td");
+
+  const content = `
+    <div style="
+      padding:25px;
+      font-family:Arial;
+      border:2px solid #ff7a00;
+      border-radius:12px;
+      width:700px;
+    ">
+
+      <h1 style="
+        text-align:center;
+        color:#ff7a00;
+        margin-bottom:5px;
+      ">
+        Vishwpandhari Yatrinivas
+      </h1>
+
+      <h2 style="
+        text-align:center;
+        margin-top:0;
+        color:#444;
+      ">
+        Booking Receipt
+      </h2>
+
+      <hr>
+
+      <table style="
+        width:100%;
+        border-collapse:collapse;
+        margin-top:20px;
+      ">
+
+        <tr>
+          <td><b>Booking ID</b></td>
+          <td>${cells[0].innerText}</td>
+        </tr>
+
+        <tr>
+          <td><b>Name</b></td>
+          <td>${cells[1].innerText}</td>
+        </tr>
+
+        <tr>
+          <td><b>Email</b></td>
+          <td>${cells[2].innerText}</td>
+        </tr>
+
+        <tr>
+          <td><b>Phone</b></td>
+          <td>${cells[3].innerText}</td>
+        </tr>
+
+        <tr>
+          <td><b>Room Type</b></td>
+          <td>${cells[4].innerText}</td>
+        </tr>
+
+        <tr>
+          <td><b>Room ID</b></td>
+          <td>${cells[5].innerText}</td>
+        </tr>
+
+        <tr>
+          <td><b>Check-In</b></td>
+          <td>${cells[6].innerText}</td>
+        </tr>
+
+        <tr>
+          <td><b>Check-Out</b></td>
+          <td>${cells[7].innerText}</td>
+        </tr>
+
+        <tr>
+          <td><b>Guests</b></td>
+          <td>${cells[8].innerText}</td>
+        </tr>
+
+        <tr>
+          <td><b>Total Price</b></td>
+          <td>${cells[9].innerText}</td>
+        </tr>
+
+        <tr>
+          <td><b>Status</b></td>
+          <td>${cells[10].innerText}</td>
+        </tr>
+
+        <tr>
+          <td><b>Booked On</b></td>
+          <td>${cells[11].innerText}</td>
+        </tr>
+
+      </table>
+
+      <br><br>
+
+      <p style="
+        text-align:center;
+        color:gray;
+        font-size:14px;
+      ">
+        Thank you for choosing Vishwpandhari Yatrinivas 🙏
+      </p>
+
+    </div>
+  `;
+
+  const element = document.createElement("div");
+
+  element.innerHTML = content;
+
+  html2pdf()
+    .set({
+      margin: 0.5,
+      filename: "booking_" + id + ".pdf",
+      image: { type: "jpeg", quality: 1 },
+      html2canvas: { scale: 2 },
+      jsPDF: {
+        unit: "in",
+        format: "a4",
+        orientation: "portrait"
+      }
+    })
+    .from(element)
+    .save();
+}
+
+// ================= PAGE LOAD =================
+window.addEventListener("load", function () {
+  updateNavbar();
+  loadBookings();
+});
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+</body>
+</html>

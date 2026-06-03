@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Reviews</title>
+
+  <style>
+
+    body{
+      font-family: Arial;
+      background:#f5f5f5;
+      padding:20px;
+    }
+
+    h2{
+      text-align:center;
+      margin-bottom:30px;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      background:white;
+    }
+
+    th{
+      background:#ff6f00;
+      color:white;
+      padding:12px;
+    }
+
+    td{
+      padding:12px;
+      border-bottom:1px solid #ddd;
+      text-align:center;
+    }
+
+    img{
+      width:60px;
+      height:60px;
+      border-radius:50%;
+      object-fit:cover;
+    }
+
+    button{
+      background:red;
+      color:white;
+      border:none;
+      padding:8px 15px;
+      border-radius:5px;
+      cursor:pointer;
+    }
+
+    .report-btn{
+  background:#ff6f00;
+  color:white;
+  border:none;
+  padding:12px 20px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:15px;
+  font-weight:bold;
+}
+
+.report-btn:hover{
+  background:#e66000;
+}
+
+    *{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+.navbar{
+  width:100%;
+  background:white;
+  padding:15px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,0.1);
+  margin-bottom:30px;
+}
+
+.logo{
+  font-size:24px;
+  font-weight:bold;
+  color:#ff7a00;
+}
+
+.nav-links{
+  display:flex;
+  gap:25px;
+  list-style:none;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:#333;
+  font-weight:600;
+  transition:0.3s;
+}
+
+.nav-links a:hover{
+  color:#ff7a00;
+}
+
+  </style>
+
+</head>
+
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+
+  <div class="logo">
+    Vishwpandhari Yatrinivas
+  </div>
+
+  <ul class="nav-links">
+
+    <li>
+      <a href="admin-dashboard.html">Dashboard</a>
+    </li>
+
+    <li>
+      <a href="admin-rooms.html">Rooms</a>
+    </li>
+
+    <li>
+      <a href="admin-bookings.html">Bookings</a>
+    </li>
+
+    <li>
+      <a href="admin-users.html">Users</a>
+    </li>
+
+    <li>
+      <a href="admin-testimonials.html">Reviews</a>
+    </li>
+
+    <li><a href="admin-enquiries.html">Enquiries</a></li>
+
+  </ul>
+
+</nav>
+
+<h2>All Reviews</h2>
+
+<div style="
+  width:100%;
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:15px;
+">
+
+  <button class="report-btn" onclick="downloadReviewsPDF()">
+    Download Reviews PDF
+  </button>
+
+</div>
+
+<table id="reviewsReport">
+
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Image</th>
+      <th>Name</th>
+      <th>Location</th>
+      <th>Message</th>
+      <th>Rating</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody id="reviewTable"></tbody>
+
+</table>
+
+<script>
+
+function loadReviews(){
+
+  fetch("http://localhost:5000/testimonials")
+
+  .then(res => res.json())
+
+  .then(data => {
+
+    let html = "";
+
+    data.data.forEach(r => {
+
+      html += `
+      
+      <tr>
+
+        <td>${r.id}</td>
+
+        <td>
+          <img src="${r.image}">
+        </td>
+
+        <td>${r.name}</td>
+
+        <td>${r.location}</td>
+
+        <td>${r.message}</td>
+
+        <td>${r.rating} ⭐</td>
+
+        <td>
+          <button onclick="deleteReview(${r.id})">
+            Delete
+          </button>
+        </td>
+
+      </tr>
+      
+      `;
+    });
+
+    document.getElementById("reviewTable").innerHTML = html;
+
+  });
+
+}
+
+function deleteReview(id){
+
+  if(confirm("Delete this review?")){
+
+    fetch(`http://localhost:5000/delete-testimonial/${id}`,{
+      method:"DELETE"
+    })
+
+    .then(res => res.json())
+
+    .then(data => {
+
+      alert("Review Deleted");
+
+      loadReviews();
+
+    });
+
+  }
+
+}
+
+loadReviews();
+
+// ================= DOWNLOAD REVIEWS PDF =================
+
+function downloadReviewsPDF(){
+
+  const table = document.getElementById("reviewsReport");
+
+  const cloneTable = table.cloneNode(true);
+
+  // DELETE BUTTON COLUMN REMOVE
+  cloneTable.querySelectorAll("tr").forEach(row => {
+
+    if(row.cells.length > 6){
+      row.deleteCell(6);
+    }
+
+  });
+
+  const element = document.createElement("div");
+
+  element.innerHTML = `
+    <h1 style="
+      text-align:center;
+      color:#ff6f00;
+      margin-bottom:20px;
+      font-family:Arial;
+    ">
+      Vishwpandhari Yatrinivas - Reviews Report
+    </h1>
+  `;
+
+  element.appendChild(cloneTable);
+
+  const opt = {
+
+    margin:0.5,
+
+    filename:"Reviews_Report.pdf",
+
+    image:{
+      type:"jpeg",
+      quality:1
+    },
+
+    html2canvas:{
+      scale:2
+    },
+
+    jsPDF:{
+      unit:"in",
+      format:"a3",
+      orientation:"landscape"
+    }
+
+  };
+
+  html2pdf().set(opt).from(element).save();
+
+}
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+</body>
+</html>

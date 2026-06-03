@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vishwpandhari Yatrinivas - Peaceful Stay Near Pandharpur</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --saffron: #E8732A;
+      --saffron-light: #F4965A;
+      --saffron-dark: #C45C18;
+      --gold: #D4A017;
+      --gold-light: #F0C040;
+      --cream: #FDF6EC;
+      --cream-dark: #F5E8D0;
+      --white: #FFFFFF;
+      --brown: #6B3E1E;
+      --brown-light: #8B5E3C;
+      --text-dark: #2C1A0E;
+      --text-mid: #5A3A20;
+      --text-light: #8B6E5A;
+      --shadow: 0 4px 20px rgba(107,62,30,0.12);
+      --shadow-hover: 0 8px 32px rgba(107,62,30,0.22);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      line-height: 1.7;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.97);
+      box-shadow: 0 2px 16px rgba(107,62,30,0.10);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 68px;
+      border-bottom: 2px solid var(--gold-light);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo .logo-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 2px 8px rgba(232,115,42,0.3);
+    }
+    .nav-logo .logo-text { font-size: 1.15rem; font-weight: 700; color: var(--brown); line-height: 1.2; }
+    .nav-logo .logo-sub { font-size: 0.7rem; color: var(--saffron); font-weight: 500; letter-spacing: 0.5px; }
+    .nav-links { display: flex; list-style: none; gap: 4px; }
+    .nav-links a {
+      text-decoration: none; color: var(--text-mid); font-size: 0.88rem; font-weight: 600;
+      padding: 6px 12px; border-radius: 8px; transition: all 0.2s; letter-spacing: 0.3px;
+    }
+    .nav-links a:hover, .nav-links a.active { background: var(--cream-dark); color: var(--saffron-dark); }
+    .nav-toggle {
+      display: none; flex-direction: column; gap: 5px; cursor: pointer;
+      padding: 6px; border: none; background: none;
+    }
+    .nav-toggle span { display: block; width: 26px; height: 2.5px; background: var(--brown); border-radius: 2px; transition: all 0.3s; }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+    @media (max-width: 768px) {
+      .nav-toggle { display: flex; }
+      .nav-links {
+        display: none; position: absolute; top: 68px; left: 0; right: 0;
+        background: white; flex-direction: column; padding: 16px 24px 24px;
+        box-shadow: 0 8px 24px rgba(107,62,30,0.15); border-bottom: 2px solid var(--gold-light); gap: 2px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 10px 14px; font-size: 0.95rem; }
+    }
+
+    #home {
+      min-height: 92vh;
+      background: linear-gradient(135deg, #2C1A0E 0%, #6B3E1E 40%, #C45C18 75%, #E8732A 100%);
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 60px 24px; position: relative; overflow: hidden;
+    }
+    #home::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 20% 50%, rgba(212,160,23,0.18) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(244,150,90,0.15) 0%, transparent 50%);
+    }
+    .hero-pattern {
+      position: absolute; inset: 0; opacity: 0.04;
+      background-image: repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%);
+      background-size: 20px 20px;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 760px; }
+    .hero-badge {
+      display: inline-block; background: rgba(212,160,23,0.25);
+      border: 1px solid rgba(212,160,23,0.5); color: var(--gold-light);
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      padding: 6px 18px; border-radius: 20px; margin-bottom: 24px;
+    }
+    .hero-content h1 {
+      font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 800; color: var(--white);
+      line-height: 1.2; margin-bottom: 18px; text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    .hero-content h1 span { color: var(--gold-light); }
+    .hero-content p {
+      font-size: clamp(1rem, 2.5vw, 1.2rem); color: rgba(255,255,255,0.85);
+      margin-bottom: 36px; max-width: 540px; margin-left: auto; margin-right: auto;
+    }
+    .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block; padding: 13px 30px; border-radius: 50px;
+      font-size: 0.95rem; font-weight: 700; text-decoration: none; cursor: pointer;
+      transition: all 0.25s; border: 2px solid transparent; letter-spacing: 0.4px;
+    }
+    .btn-primary { background: var(--gold); color: var(--brown); border-color: var(--gold); box-shadow: 0 4px 16px rgba(212,160,23,0.4); }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212,160,23,0.5); }
+    .btn-outline { background: transparent; color: white; border-color: rgba(255,255,255,0.6); }
+    .btn-outline:hover { background: rgba(255,255,255,0.12); transform: translateY(-2px); }
+    .hero-stats {
+      display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;
+      margin-top: 48px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.15);
+    }
+    .hero-stat { text-align: center; color: white; }
+    .hero-stat .num { font-size: 2rem; font-weight: 800; color: var(--gold-light); display: block; }
+    .hero-stat .lbl { font-size: 0.78rem; opacity: 0.8; letter-spacing: 0.5px; }
+
+    section { padding: 80px 5%; }
+    .section-title { text-align: center; margin-bottom: 50px; }
+    .section-title .tag {
+      display: inline-block; background: linear-gradient(135deg, var(--saffron), var(--gold));
+      color: white; font-size: 0.72rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; padding: 5px 16px; border-radius: 20px; margin-bottom: 12px;
+    }
+    .section-title h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 800; color: var(--brown); margin-bottom: 12px; }
+    .section-title p { color: var(--text-light); font-size: 1rem; max-width: 520px; margin: 0 auto; }
+    .divider { width: 60px; height: 4px; background: linear-gradient(90deg, var(--saffron), var(--gold)); border-radius: 2px; margin: 14px auto 0; }
+
+    #about { background: white; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1100px; margin: 0 auto; }
+    .about-visual {
+      background: linear-gradient(135deg, var(--cream-dark), var(--cream)); border-radius: var(--radius);
+      padding: 40px; text-align: center; border: 2px solid rgba(212,160,23,0.2); box-shadow: var(--shadow);
+    }
+    .about-icon-big { font-size: 5rem; display: block; margin-bottom: 16px; }
+    .about-visual h3 { color: var(--brown); font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+    .about-visual p { color: var(--text-light); font-size: 0.92rem; }
+    .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+    .about-feat {
+      background: white; border-radius: 10px; padding: 12px 14px;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.85rem; font-weight: 600; color: var(--text-mid);
+      box-shadow: 0 2px 8px rgba(107,62,30,0.08);
+    }
+    .about-feat span:first-child { font-size: 1.2rem; }
+    .about-text h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; color: var(--brown); margin-bottom: 16px; line-height: 1.3; }
+    .about-text p { color: var(--text-light); margin-bottom: 16px; font-size: 0.97rem; }
+    .about-points { list-style: none; margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+    .about-points li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.92rem; color: var(--text-mid); }
+    .about-points li::before { content: '\2726'; color: var(--saffron); font-size: 0.75rem; margin-top: 3px; flex-shrink: 0; }
+    @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+    #rooms { background: var(--cream); }
+    .rooms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1100px; margin: 0 auto; }
+    .room-card { background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: all 0.3s; border: 1px solid rgba(212,160,23,0.15); }
+    .room-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+    .room-img { height: 200px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative; overflow: hidden; }
+    .room-img.standard { background: linear-gradient(135deg, #F5E8D0, #E8D4B0); }
+    .room-img.deluxe { background: linear-gradient(135deg, #E8C88A, #D4A040); }
+    .room-img.family { background: linear-gradient(135deg, #D4C0A0, #C09060); }
+    .room-badge { position: absolute; top: 12px; right: 12px; background: var(--saffron); color: white; font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; letter-spacing: 0.5px; }
+    .room-body { padding: 24px; }
+    .room-body h3 { font-size: 1.2rem; font-weight: 700; color: var(--brown); margin-bottom: 8px; }
+    .room-body p { color: var(--text-light); font-size: 0.88rem; margin-bottom: 16px; }
+    .room-price { font-size: 1.5rem; font-weight: 800; color: var(--saffron); margin-bottom: 14px; }
+    .room-price span { font-size: 0.8rem; color: var(--text-light); font-weight: 400; }
+    .room-features { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+    .room-features li { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-mid); }
+    .room-features li::before { content: '\2713'; color: var(--gold); font-weight: 700; }
+    .btn-room {
+      display: block; text-align: center; padding: 11px; border-radius: 50px;
+      background: linear-gradient(135deg, var(--saffron), var(--saffron-dark));
+      color: white; font-weight: 700; font-size: 0.88rem; text-decoration: none;
+      transition: all 0.2s; cursor: pointer; border: none; width: 100%;
+    }
+    .btn-room:hover { opacity: 0.9; transform: translateY(-1px); }
+    @media (max-width: 900px) { .rooms-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .rooms-grid { grid-template-columns: 1fr; } }
+
+    #amenities { background: white; }
+    .amenities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto; }
+    .amenity-card {
+      background: var(--cream); border-radius: var(--radius); padding: 32px 24px; text-align: center;
+      border: 1px solid rgba(212,160,23,0.2); transition: all 0.3s; box-shadow: 0 2px 12px rgba(107,62,30,0.06);
+    }
+    .amenity-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--gold); background: white; }
+    .amenity-icon {
+      width: 64px; height: 64px; background: linear-gradient(135deg, var(--saffron), var(--gold));
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; margin: 0 auto 16px; box-shadow: 0 4px 14px rgba(232,115,42,0.3);
+    }
+    .amenity-card h3 { font-size: 1rem; font-weight: 700; color: var(--brown); margin-bottom: 6px; }
+    .amenity-card p { font-size: 0.83rem; color: var(--text-light); }
+    @media (max-width: 768px) { .amenities-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .amenities-grid { grid-template-columns: 1fr; } }
+
+    #gallery { background: var(--cream); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 1000px; margin: 0 auto; }
+    .gallery-item { border-radius: var(--radius-sm); overflow: hidden; cursor: pointer; position: relative; aspect-ratio: 4/3; box-shadow: var(--shadow); transition: transform 0.3s; }
+    .gallery-item:hover { transform: scale(1.03); }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-block { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 2.4rem; }
+    .g1 { background: linear-gradient(135deg, #F4965A, #E8732A); }
+    .g2 { background: linear-gradient(135deg, #D4A017, #F0C040); }
+    .g3 { background: linear-gradient(135deg, #8B5E3C, #C09060); }
+    .g4 { background: linear-gradient(135deg, #C45C18, #E8A060); }
+    .g5 { background: linear-gradient(135deg, #6B3E1E, #A06030); }
+    .g6 { background: linear-gradient(135deg, #E8D4B0, #D4B880); }
+    .gallery-overlay { position: absolute; inset: 0; background: rgba(107,62,30,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; color: white; font-size: 2rem; }
+    .gallery-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(44,26,14,0.75)); color: white; font-size: 0.82rem; font-weight: 600; padding: 20px 12px 10px; }
+    @media (max-width: 600px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9000; align-items: center; justify-content: center; padding: 24px; }
+    .lightbox.active { display: flex; }
+    .lightbox-inner { background: white; border-radius: var(--radius); padding: 30px; max-width: 560px; width: 100%; text-align: center; position: relative; }
+    .lightbox-block { width: 100%; height: 240px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 4rem; margin-bottom: 16px; }
+    .lightbox-title { font-size: 1.2rem; font-weight: 700; color: var(--brown); margin-bottom: 6px; }
+    .lightbox-desc { font-size: 0.88rem; color: var(--text-light); }
+    .lightbox-close { position: absolute; top: 12px; right: 14px; background: none; border: none; font-size: 1.6rem; cursor: pointer; color: var(--text-light); line-height: 1; }
+    .lightbox-close:hover { color: var(--brown); }
+    .lightbox-nav { display: flex; gap: 12px; justify-content: center; margin-top: 18px; }
+    .lightbox-nav button { background: var(--cream-dark); border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; color: var(--brown); transition: background 0.2s; }
+    .lightbox-nav button:hover { background: var(--saffron); color: white; }
+
+    #testimonials { background: linear-gradient(135deg, var(--brown) 0%, #4A2810 100%); position: relative; overflow: hidden; }
+    #testimonials::before { content: '\201C'; position: absolute; top: -30px; left: 5%; font-size: 20rem; color: rgba(255,255,255,0.03); font-family: Georgia, serif; line-height: 1; }
+    .testimonials-slider { max-width: 800px; margin: 0 auto; position: relative; }
+    .testi-slide { display: none; }
+    .testi-slide.active { display: block; }
+    .testi-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius); padding: 40px; text-align: center; backdrop-filter: blur(4px); }
+    .testi-stars { color: var(--gold-light); font-size: 1.3rem; margin-bottom: 20px; letter-spacing: 3px; }
+    .testi-text { font-size: clamp(1rem, 2.5vw, 1.15rem); color: rgba(255,255,255,0.9); font-style: italic; line-height: 1.8; margin-bottom: 28px; }
+    .testi-author { display: flex; align-items: center; justify-content: center; gap: 14px; }
+    .testi-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--saffron), var(--gold)); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; border: 2px solid rgba(255,255,255,0.25); }
+    .testi-name { color: white; font-weight: 700; font-size: 0.95rem; }
+    .testi-loc { color: rgba(255,255,255,0.6); font-size: 0.8rem; }
+    .testi-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 32px; }
+    .testi-btn { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; width: 44px; height: 44px; color: white; font-size: 1.1rem; cursor: pointer; transition: all 0.2s; }
+    .testi-btn:hover { background: var(--saffron); border-color: var(--saffron); }
+    .testi-dots { display: flex; gap: 8px; }
+    .testi-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s; border: none; }
+    .testi-dot.active { background: var(--gold-light); width: 22px; border-radius: 4px; }
+
+    #contact { background: white; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 60px; max-width: 1000px; margin: 0 auto; }
+    .contact-info h3 { font-size: 1.4rem; font-weight: 700; color: var(--brown); margin-bottom: 24px; }
+    .contact-items { display: flex; flex-direction: column; gap: 20px; margin-bottom: 28px; }
+    .contact-item { display: flex; align-items: flex-start; gap: 16px; }
+    .ci-icon { width: 44px; height: 44px; flex-shrink: 0; background: linear-gradient(135deg, var(--saffron), var(--gold)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 3px 10px rgba(232,115,42,0.25); }
+    .ci-text strong { display: block; font-size: 0.82rem; color: var(--text-light); font-weight: 600; letter-spacing: 0.5px; margin-bottom: 2px; }
+    .ci-text span { color: var(--text-mid); font-size: 0.92rem; font-weight: 500; }
+    .whatsapp-btn { display: flex; align-items: center; gap: 10px; background: #25D366; color: white; padding: 13px 22px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; text-decoration: none; transition: all 0.2s; width: fit-content; box-shadow: 0 4px 14px rgba(37,211,102,0.3); }
+    .whatsapp-btn:hover { transform: translateY(-2px); background: #20BA5A; }
+    .contact-form { background: var(--cream); border-radius: var(--radius); padding: 36px; box-shadow: var(--shadow); border: 1px solid rgba(212,160,23,0.15); }
+    .contact-form h3 { font-size: 1.2rem; font-weight: 700; color: var(--brown); margin-bottom: 22px; }
+    .form-group { margin-bottom: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-mid); margin-bottom: 5px; letter-spacing: 0.3px; }
+    input, select, textarea { width: 100%; padding: 11px 14px; border: 1.5px solid rgba(107,62,30,0.15); border-radius: var(--radius-sm); font-size: 0.9rem; color: var(--text-dark); background: white; transition: border-color 0.2s; font-family: inherit; outline: none; }
+    input:focus, select:focus, textarea:focus { border-color: var(--saffron); }
+    textarea { resize: vertical; min-height: 90px; }
+    .form-msg { display: none; padding: 12px 16px; border-radius: 10px; font-size: 0.88rem; font-weight: 600; margin-top: 12px; }
+    .form-msg.success { background: #E8F8EE; color: #1A7A40; border: 1px solid #A8DFB8; display: block; }
+    .form-msg.error { background: #FEE8E8; color: #C0392B; border: 1px solid #F5B8B8; display: block; }
+    @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; gap: 36px; } .form-row { grid-template-columns: 1fr; } }
+
+    footer { background: var(--text-dark); color: rgba(255,255,255,0.75); padding: 60px 5% 24px; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 48px; max-width: 1000px; margin: 0 auto 40px; }
+    .footer-brand .logo-text { color: white; font-size: 1.15rem; }
+    .footer-brand .logo-sub { color: var(--saffron-light); }
+    .footer-brand p { font-size: 0.85rem; margin-top: 14px; line-height: 1.7; opacity: 0.75; }
+    .footer-col h4 { color: white; font-size: 0.95rem; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-col ul li a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--gold-light); }
+    .footer-col ul li span { color: rgba(255,255,255,0.65); font-size: 0.85rem; display: flex; align-items: flex-start; gap: 8px; }
+    .footer-col ul li span em { font-style: normal; flex-shrink: 0; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 22px; text-align: center; font-size: 0.8rem; opacity: 0.6; max-width: 1000px; margin: 0 auto; }
+    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+
+    #scrollTop { position: fixed; bottom: 28px; right: 28px; width: 46px; height: 46px; background: linear-gradient(135deg, var(--saffron), var(--gold)); color: white; border: none; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 16px rgba(232,115,42,0.4); transition: all 0.3s; opacity: 0; pointer-events: none; z-index: 800; display: flex; align-items: center; justify-content: center; }
+    #scrollTop.show { opacity: 1; pointer-events: all; }
+    #scrollTop:hover { transform: translateY(-3px); }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <div class="logo-icon">&#128332;</div>
+    <div>
+      <div class="logo-text">Vishwpandhari</div>
+      <div class="logo-sub">Yatrinivas</div>
+    </div>
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#rooms">Rooms</a></li>
+    <li><a href="#amenities">Amenities</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#testimonials">Testimonials</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="home">
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-badge">&#10022; Near Pandharpur Temple &#10022;</div>
+    <h1>Welcome to<br><span>Vishwpandhari Yatrinivas</span></h1>
+    <p>Peaceful homestay near Pandharpur for pilgrims and families &mdash; experience divine hospitality and warm comfort.</p>
+    <div class="hero-btns">
+      <a href="#rooms" class="btn btn-primary">View Rooms</a>
+      <a href="#contact" class="btn btn-outline">Contact Now</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">500+</span><span class="lbl">Happy Guests</span></div>
+      <div class="hero-stat"><span class="num">3+</span><span class="lbl">Room Types</span></div>
+      <div class="hero-stat"><span class="num">24/7</span><span class="lbl">Support</span></div>
+      <div class="hero-stat"><span class="num">1 km</span><span class="lbl">From Temple</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-title">
+    <div class="tag">About Us</div>
+    <h2>A Peaceful Abode for Every Pilgrim</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-visual">
+      <span class="about-icon-big">&#127976;</span>
+      <h3>Vishwpandhari Yatrinivas</h3>
+      <p>Your home away from home in the holy city of Pandharpur</p>
+      <div class="about-features">
+        <div class="about-feat"><span>&#127807;</span> Peaceful Rooms</div>
+        <div class="about-feat"><span>&#128591;</span> Temple Nearby</div>
+        <div class="about-feat"><span>&#128106;</span> Family Stay</div>
+        <div class="about-feat"><span>&#11088;</span> Premium Care</div>
+      </div>
+    </div>
+    <div class="about-text">
+      <h2>Clean, Comfortable &amp; Spiritually Enriching Stay</h2>
+      <p>Vishwpandhari Yatrinivas is a trusted homestay designed with the comfort of pilgrims and families in mind. Located just steps from the sacred Pandharpur temple, we offer a serene environment that complements your spiritual journey.</p>
+      <p>Our rooms are clean, well-maintained, and equipped with all essential amenities. We believe that a good rest enhances your divine experience, and our warm, attentive staff ensures every guest feels at home.</p>
+      <ul class="about-points">
+        <li>Immaculately clean rooms with fresh linens changed daily</li>
+        <li>Warm and respectful hospitality for pilgrims and travelers</li>
+        <li>Comfortable accommodation for solo travelers, couples, and families</li>
+        <li>Conveniently located near the Pandharpur temple complex</li>
+        <li>Affordable rates with no compromise on quality and comfort</li>
+        <li>Safe and secure environment for all guests</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="rooms">
+  <div class="section-title">
+    <div class="tag">Our Rooms</div>
+    <h2>Choose Your Perfect Stay</h2>
+    <p>Clean, comfortable rooms for every kind of traveler</p>
+    <div class="divider"></div>
+  </div>
+  <div class="rooms-grid">
+    <div class="room-card">
+      <div class="room-img standard">&#128719;<div class="room-badge">Available</div></div>
+      <div class="room-body">
+        <h3>Standard Room</h3>
+        <p>A neat and tidy room ideal for solo pilgrims or couples on a sacred journey.</p>
+        <div class="room-price">&#8377;799 <span>/ night</span></div>
+        <ul class="room-features">
+          <li>Double Bed with Clean Bedding</li>
+          <li>Attached Bathroom</li>
+          <li>Hot Water Supply</li>
+          <li>Ceiling Fan &amp; Lighting</li>
+          <li>Free Wi-Fi</li>
+        </ul>
+        <button class="btn-room" onclick="scrollToContact()">Book Now</button>
+      </div>
+    </div>
+    <div class="room-card">
+      <div class="room-img deluxe">&#128702;<div class="room-badge">Popular</div></div>
+      <div class="room-body">
+        <h3>Deluxe Room</h3>
+        <p>A spacious and comfortable room with premium furnishings for a relaxed stay.</p>
+        <div class="room-price">&#8377;1,299 <span>/ night</span></div>
+        <ul class="room-features">
+          <li>King Bed with Premium Bedding</li>
+          <li>Attached Bathroom with Geyser</li>
+          <li>AC &amp; Ceiling Fan</li>
+          <li>Television &amp; Free Wi-Fi</li>
+          <li>In-room Sitting Area</li>
+        </ul>
+        <button class="btn-room" onclick="scrollToContact()">Book Now</button>
+      </div>
+    </div>
+    <div class="room-card">
+      <div class="room-img family">&#128106;<div class="room-badge">Best Value</div></div>
+      <div class="room-body">
+        <h3>Family Room</h3>
+        <p>A large room with extra beds, perfect for families and small groups on pilgrimage.</p>
+        <div class="room-price">&#8377;1,899 <span>/ night</span></div>
+        <ul class="room-features">
+          <li>2 Double Beds (up to 4 guests)</li>
+          <li>Spacious Bathroom with Geyser</li>
+          <li>AC &amp; Multiple Fans</li>
+          <li>TV, Wi-Fi &amp; Extra Storage</li>
+          <li>Complimentary Breakfast</li>
+        </ul>
+        <button class="btn-room" onclick="scrollToContact()">Book Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="amenities">
+  <div class="section-title">
+    <div class="tag">Amenities</div>
+    <h2>Everything You Need for a Comfortable Stay</h2>
+    <p>We take care of every detail so you can focus on your journey</p>
+    <div class="divider"></div>
+  </div>
+  <div class="amenities-grid">
+    <div class="amenity-card"><div class="amenity-icon">&#129529;</div><h3>Clean Rooms</h3><p>Immaculately maintained rooms with fresh linens and daily housekeeping service.</p></div>
+    <div class="amenity-card"><div class="amenity-icon">&#128703;</div><h3>Hot Water</h3><p>24-hour hot water supply in all attached bathrooms for your comfort.</p></div>
+    <div class="amenity-card"><div class="amenity-icon">&#127359;</div><h3>Free Parking</h3><p>Secure and spacious parking area available for cars, bikes, and buses.</p></div>
+    <div class="amenity-card"><div class="amenity-icon">&#128106;</div><h3>Family Friendly</h3><p>Extra beds, child-friendly environment, and dedicated family rooms available.</p></div>
+    <div class="amenity-card"><div class="amenity-icon">&#128332;</div><h3>Temple Access</h3><p>Located just 1 km from the Pandharpur temple &mdash; easy walking access for darshan.</p></div>
+    <div class="amenity-card"><div class="amenity-icon">&#128222;</div><h3>24/7 Support</h3><p>Our friendly staff is always available to assist you at any hour of the day.</p></div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="section-title">
+    <div class="tag">Gallery</div>
+    <h2>A Glimpse of Our Yatrinivas</h2>
+    <p>Click on any image to view it in detail</p>
+    <div class="divider"></div>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item" onclick="openLightbox(0)"><div class="gallery-block g1">&#128719;</div><div class="gallery-overlay">&#128269;</div><div class="gallery-label">Standard Room Interior</div></div>
+    <div class="gallery-item" onclick="openLightbox(1)"><div class="gallery-block g2">&#128702;</div><div class="gallery-overlay">&#128269;</div><div class="gallery-label">Deluxe Room</div></div>
+    <div class="gallery-item" onclick="openLightbox(2)"><div class="gallery-block g3">&#127976;</div><div class="gallery-overlay">&#128269;</div><div class="gallery-label">Hotel Exterior</div></div>
+    <div class="gallery-item" onclick="openLightbox(3)"><div class="gallery-block g4">&#128332;</div><div class="gallery-overlay">&#128269;</div><div class="gallery-label">Pandharpur Temple View</div></div>
+    <div class="gallery-item" onclick="openLightbox(4)"><div class="gallery-block g5">&#127807;</div><div class="gallery-overlay">&#128269;</div><div class="gallery-label">Peaceful Garden Area</div></div>
+    <div class="gallery-item" onclick="openLightbox(5)"><div class="gallery-block g6">&#9749;</div><div class="gallery-overlay">&#128269;</div><div class="gallery-label">Common Lounge</div></div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" onclick="closeLightboxOutside(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox()">&#10005;</button>
+    <div class="lightbox-block" id="lbBlock"></div>
+    <div class="lightbox-title" id="lbTitle"></div>
+    <div class="lightbox-desc" id="lbDesc"></div>
+    <div class="lightbox-nav">
+      <button onclick="prevLightbox()">&#8592;</button>
+      <button onclick="nextLightbox()">&#8594;</button>
+    </div>
+  </div>
+</div>
+
+<section id="testimonials">
+  <div class="section-title">
+    <div class="tag" style="background:rgba(255,255,255,0.15); backdrop-filter:blur(4px);">Guest Reviews</div>
+    <h2 style="color:white;">What Our Guests Say</h2>
+    <p style="color:rgba(255,255,255,0.65);">Trusted by hundreds of pilgrims and families</p>
+    <div class="divider"></div>
+  </div>
+  <div class="testimonials-slider">
+    <div class="testi-slide active">
+      <div class="testi-card">
+        <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testi-text">"We had a wonderful stay at Vishwpandhari Yatrinivas. The rooms were spotlessly clean and the staff was very courteous and helpful. The location is perfect for visiting the temple. Highly recommend for families visiting Pandharpur."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">&#128591;</div>
+          <div><div class="testi-name">Ramesh Kulkarni</div><div class="testi-loc">Pune, Maharashtra</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-slide">
+      <div class="testi-card">
+        <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testi-text">"Came here for Ashadhi Ekadashi and the experience was divine. The yatrinivas provided everything we needed &mdash; clean rooms, hot water, and a peaceful atmosphere. Will definitely return for Kartiki Ekadashi."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">&#10024;</div>
+          <div><div class="testi-name">Sunita Patil</div><div class="testi-loc">Nashik, Maharashtra</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-slide">
+      <div class="testi-card">
+        <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+        <p class="testi-text">"Our family of 6 stayed in the Family Room and it was very comfortable. The staff helped us arrange local transport to the temple. Great value for money and a truly welcoming environment."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">&#128106;</div>
+          <div><div class="testi-name">Anil Deshmukh</div><div class="testi-loc">Kolhapur, Maharashtra</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-controls">
+      <button class="testi-btn" onclick="prevTesti()">&#8592;</button>
+      <div class="testi-dots">
+        <button class="testi-dot active" onclick="goTesti(0)"></button>
+        <button class="testi-dot" onclick="goTesti(1)"></button>
+        <button class="testi-dot" onclick="goTesti(2)"></button>
+      </div>
+      <button class="testi-btn" onclick="nextTesti()">&#8594;</button>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-title">
+    <div class="tag">Contact Us</div>
+    <h2>Get In Touch &amp; Book Your Stay</h2>
+    <p>We are here to help you plan your pilgrimage stay</p>
+    <div class="divider"></div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h3>Reach Us Anytime</h3>
+      <div class="contact-items">
+        <div class="contact-item"><div class="ci-icon">&#128205;</div><div class="ci-text"><strong>Address</strong><span>Near Pandharpur Temple, Pandharpur,<br>Solapur District, Maharashtra &mdash; 413304</span></div></div>
+        <div class="contact-item"><div class="ci-icon">&#128222;</div><div class="ci-text"><strong>Phone</strong><span>+91 98765 43210</span></div></div>
+        <div class="contact-item"><div class="ci-icon">&#9993;</div><div class="ci-text"><strong>Email</strong><span>info@vishwpandhariyatrinivas.in</span></div></div>
+        <div class="contact-item"><div class="ci-icon">&#128336;</div><div class="ci-text"><strong>Check-In / Check-Out</strong><span>Check-in: 12:00 PM &nbsp;|&nbsp; Check-out: 10:00 AM</span></div></div>
+      </div>
+      <a href="https://wa.me/919876543210" class="whatsapp-btn" target="_blank">
+        <span style="font-size:1.3rem;">&#128172;</span> Chat on WhatsApp
+      </a>
+    </div>
+    <div class="contact-form">
+      <h3>Send Us a Message</h3>
+      <form id="contactForm" onsubmit="submitForm(event)">
+        <div class="form-row">
+          <div class="form-group"><label for="fname">Full Name *</label><input type="text" id="fname" placeholder="Your Name" /></div>
+          <div class="form-group"><label for="fphone">Phone Number *</label><input type="tel" id="fphone" placeholder="+91 XXXXX XXXXX" /></div>
+        </div>
+        <div class="form-group"><label for="femail">Email Address</label><input type="email" id="femail" placeholder="you@email.com" /></div>
+        <div class="form-row">
+          <div class="form-group"><label for="fcheckin">Check-In Date *</label><input type="date" id="fcheckin" /></div>
+          <div class="form-group"><label for="froom">Room Type *</label><select id="froom"><option value="">Select Room</option><option>Standard Room</option><option>Deluxe Room</option><option>Family Room</option></select></div>
+        </div>
+        <div class="form-group"><label for="fmsg">Message</label><textarea id="fmsg" placeholder="Any special requirements or questions..."></textarea></div>
+        <button type="submit" class="btn-room" style="font-size:0.95rem; padding:13px;">Send Enquiry &#10022;</button>
+        <div class="form-msg" id="formMsg"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-logo" style="margin-bottom:4px;">
+        <div class="logo-icon">&#128332;</div>
+        <div><div class="logo-text">Vishwpandhari</div><div class="logo-sub">Yatrinivas</div></div>
+      </div>
+      <p>A peaceful and spiritual homestay near the sacred Pandharpur temple, offering warm hospitality to pilgrims and families from across Maharashtra and India.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#rooms">Our Rooms</a></li>
+        <li><a href="#amenities">Amenities</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact Details</h4>
+      <ul>
+        <li><span><em>&#128205;</em> Near Pandharpur Temple, Pandharpur, Solapur &mdash; 413304</span></li>
+        <li><span><em>&#128222;</em> +91 98765 43210</span></li>
+        <li><span><em>&#9993;</em> info@vishwpandhariyatrinivas.in</span></li>
+        <li><span><em>&#128336;</em> Check-in: 12 PM | Out: 10 AM</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">&copy; 2025 Vishwpandhari Yatrinivas, Pandharpur. All rights reserved. &nbsp;|&nbsp; Jai Vitthal &#128591;</div>
+</footer>
+
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">&#8679;</button>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', function() {
+    navToggle.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      navToggle.classList.remove('open');
+      navLinks.classList.remove('open');
+    });
+  });
+
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', function() {
+    var scrollY = window.scrollY + 80;
+    sections.forEach(function(sec) {
+      if (scrollY >= sec.offsetTop && scrollY < sec.offsetTop + sec.offsetHeight) {
+        links.forEach(function(l) { l.classList.remove('active'); });
+        var active = document.querySelector('.nav-links a[href="#' + sec.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+    document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 300);
+  });
+
+  var galleryData = [
+    { emoji: '&#128719;', cls: 'g1', title: 'Standard Room Interior', desc: 'Clean and cozy standard room with comfortable double bed, fresh linens, and all basic amenities.' },
+    { emoji: '&#128702;', cls: 'g2', title: 'Deluxe Room', desc: 'Spacious deluxe room with premium furnishings, AC, TV, and attached bathroom with geyser.' },
+    { emoji: '&#127976;', cls: 'g3', title: 'Hotel Exterior', desc: 'The welcoming facade of Vishwpandhari Yatrinivas - a peaceful retreat in the heart of Pandharpur.' },
+    { emoji: '&#128332;', cls: 'g4', title: 'Pandharpur Temple View', desc: 'The majestic Vitthal Rukmini temple, just 1 km from our yatrinivas - easily accessible on foot.' },
+    { emoji: '&#127807;', cls: 'g5', title: 'Peaceful Garden Area', desc: 'Our serene garden area where guests can relax and enjoy the calm surroundings.' },
+    { emoji: '&#9749;', cls: 'g6', title: 'Common Lounge', desc: 'A comfortable common lounge for guests to rest, socialize, and enjoy a cup of chai.' }
+  ];
+  var currentLB = 0;
+  function openLightbox(idx) {
+    currentLB = idx;
+    renderLightbox();
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function renderLightbox() {
+    var d = galleryData[currentLB];
+    var lb = document.getElementById('lbBlock');
+    lb.className = 'lightbox-block ' + d.cls;
+    lb.innerHTML = d.emoji;
+    document.getElementById('lbTitle').textContent = d.title;
+    document.getElementById('lbDesc').textContent = d.desc;
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function closeLightboxOutside(e) { if (e.target.id === 'lightbox') closeLightbox(); }
+  function nextLightbox() { currentLB = (currentLB + 1) % galleryData.length; renderLightbox(); }
+  function prevLightbox() { currentLB = (currentLB - 1 + galleryData.length) % galleryData.length; renderLightbox(); }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') nextLightbox();
+    if (e.key === 'ArrowLeft') prevLightbox();
+  });
+
+  var testiIdx = 0;
+  var testiSlides = document.querySelectorAll('.testi-slide');
+  var testiDots = document.querySelectorAll('.testi-dot');
+  function goTesti(idx) {
+    testiSlides[testiIdx].classList.remove('active');
+    testiDots[testiIdx].classList.remove('active');
+    testiIdx = (idx + testiSlides.length) % testiSlides.length;
+    testiSlides[testiIdx].classList.add('active');
+    testiDots[testiIdx].classList.add('active');
+  }
+  function nextTesti() { goTesti(testiIdx + 1); }
+  function prevTesti() { goTesti(testiIdx - 1); }
+  setInterval(function() { nextTesti(); }, 5000);
+
+  function submitForm(e) {
+    e.preventDefault();
+    var name = document.getElementById('fname').value.trim();
+    var phone = document.getElementById('fphone').value.trim();
+    var checkin = document.getElementById('fcheckin').value;
+    var room = document.getElementById('froom').value;
+    if (!name) { showMsg('error', 'Please enter your full name.'); return; }
+    if (!phone || phone.length < 10) { showMsg('error', 'Please enter a valid phone number.'); return; }
+    if (!checkin) { showMsg('error', 'Please select your check-in date.'); return; }
+    if (!room) { showMsg('error', 'Please select a room type.'); return; }
+    showMsg('success', 'Thank you, ' + name + '! Your enquiry has been received. We will contact you shortly on ' + phone + '.');
+    document.getElementById('contactForm').reset();
+  }
+  function showMsg(type, text) {
+    var msg = document.getElementById('formMsg');
+    msg.textContent = text;
+    msg.className = 'form-msg ' + type;
+    setTimeout(function() { msg.className = 'form-msg'; }, 6000);
+  }
+  function scrollToContact() {
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>

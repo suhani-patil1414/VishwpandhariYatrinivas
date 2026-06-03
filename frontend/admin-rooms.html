@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Manage Rooms</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .form-box {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 8px;
+      margin: 5px;
+    }
+
+    button {
+      padding: 8px 12px;
+      cursor: pointer;
+      border: none;
+      background: #ff9800;
+      color: white;
+      border-radius: 5px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    th {
+      background: #ff6f00;
+      color: white;
+    }
+
+    .delete-btn {
+      background: red;
+    }
+
+    *{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+.navbar{
+  width:100%;
+  background:white;
+  padding:15px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,0.1);
+  margin-bottom:30px;
+}
+
+.logo{
+  font-size:24px;
+  font-weight:bold;
+  color:#ff7a00;
+}
+
+.nav-links{
+  display:flex;
+  gap:25px;
+  list-style:none;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:#333;
+  font-weight:600;
+  transition:0.3s;
+}
+
+.nav-links a:hover{
+  color:#ff7a00;
+}
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+
+  <div class="logo">
+    Vishwpandhari Yatrinivas
+  </div>
+
+  <ul class="nav-links">
+
+    <li>
+      <a href="admin-dashboard.html">Dashboard</a>
+    </li>
+
+    <li>
+      <a href="admin-rooms.html">Rooms</a>
+    </li>
+
+    <li>
+      <a href="admin-bookings.html">Bookings</a>
+    </li>
+
+    <li>
+      <a href="admin-users.html">Users</a>
+    </li>
+
+    <li>
+      <a href="admin-testimonials.html">Reviews</a>
+    </li>
+
+    <li><a href="admin-enquiries.html">Enquiries</a></li>
+
+  </ul>
+
+</nav>
+
+<h2>Manage Rooms</h2>
+
+<div class="form-box">
+  <input type="text" id="type" placeholder="Room Type">
+  <input type="number" id="price" placeholder="Price">
+  <input type="number" id="total" placeholder="Total Rooms">
+  <input type="text" id="description" placeholder="Description">
+  <input type="text" id="image" placeholder="Image URL">
+  <button onclick="addRoom()">Add Room</button>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Type</th>
+      <th>Price</th>
+      <th>Total</th>
+      <th>Description</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="roomTable"></tbody>
+</table>
+
+<script>
+
+if (!localStorage.getItem("admin")) {
+  alert("Access Denied ❌");
+  window.location.href = "index.html";
+}
+
+// ================= LOAD ROOMS =================
+function loadRooms() {
+  fetch("http://localhost:5000/rooms")
+    .then(res => res.json())
+    .then(data => {
+      let html = "";
+
+      data.data.forEach(r => {
+        html += `
+<tr>
+  <td>${r.id}</td>
+  <td>${r.room_type}</td>
+  <td>₹${r.price}</td>
+  <td>${r.total_rooms}</td>
+  <td>${r.description}</td> <!-- ✅ NEW -->
+  <td>
+    <button onclick="editRoom(${r.id}, '${r.room_type}', ${r.price}, ${r.total_rooms}, '${r.image || ""}', \`${r.description}\`)">
+      Edit
+    </button>
+    <button class="delete-btn" onclick="deleteRoom(${r.id})">Delete</button>
+  </td>
+</tr>
+`;
+      });
+
+      document.getElementById("roomTable").innerHTML = html;
+    });
+}
+
+// ================= ADD / UPDATE ROOM =================
+function addRoom() {
+  const room_type = document.getElementById("type").value.trim();
+  const price = document.getElementById("price").value.trim();
+  const total_rooms = document.getElementById("total").value.trim();
+  const image = document.getElementById("image").value.trim();
+  const description = document.getElementById("description").value.trim(); // ✅ NEW
+
+  // 👉 UPDATE MODE
+  if (window.editId) {
+    fetch(`http://localhost:5000/admin/update-room/${window.editId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ room_type, price, total_rooms, image, description }) // ✅ NEW
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert("Room Updated ✅");
+      window.editId = null;
+      loadRooms();
+    });
+
+  } else {
+    // 👉 ADD MODE
+    fetch("http://localhost:5000/admin/add-room", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ room_type, price, total_rooms, image, description }) // ✅ NEW
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert(data.message);
+      loadRooms();
+    });
+  }
+
+  // ✅ clear fields
+  document.getElementById("type").value = "";
+  document.getElementById("price").value = "";
+  document.getElementById("total").value = "";
+  document.getElementById("image").value = "";
+  document.getElementById("description").value = "";
+}
+
+// ================= EDIT ROOM =================
+function editRoom(id, type, price, total, image, description) {
+
+  document.getElementById("type").value = type;
+  document.getElementById("price").value = price;
+  document.getElementById("total").value = total;
+  document.getElementById("image").value = image || "";
+  document.getElementById("description").value = description; // ✅ NEW
+
+  window.editId = id;
+
+  document.querySelector(".add-btn").innerText = "Update Room"; // better selector
+}
+
+// ================= DELETE ROOM =================
+function deleteRoom(id) {
+  if (!confirm("Are you sure to delete this room?")) return;
+
+  fetch(`http://localhost:5000/admin/delete-room/${id}`, {
+    method: "DELETE"
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.message);
+    loadRooms();
+  });
+}
+
+// ================= INIT =================
+loadRooms();
+
+</script>
+
+</body>
+</html>
+
