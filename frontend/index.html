@@ -1697,7 +1697,7 @@ function registerUser() {
     return;
   }
 
-  fetch("http://localhost:5000/register", {
+  fetch("http://vishwpandhariyatrinivas.onrender.com/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -1724,7 +1724,7 @@ function loginUser() {
   const email = document.getElementById("lemail").value;
   const password = document.getElementById("lpassword").value;
 
-  fetch("http://localhost:5000/login", {
+  fetch("http://vishwpandhariyatrinivas.onrender.com/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -1842,7 +1842,7 @@ function logoutUser() {
 
 // ================= DYNAMIC ROOMS =================
 function loadRooms() {
-  fetch("http://localhost:5000/rooms")
+  fetch("http://vishwpandhariyatrinivas.onrender.com/rooms")
     .then(res => res.json())
     .then(data => {
       console.log(data);
@@ -1953,7 +1953,7 @@ function checkAvailability() {
   // ❌ if dates not selected
   if (!checkin || !checkout) return;
 
-  fetch(`http://localhost:5000/room-availability/${roomId}?check_in=${checkin}&check_out=${checkout}`)
+  fetch(`http://vishwpandhariyatrinivas.onrender.com/room-availability/${roomId}?check_in=${checkin}&check_out=${checkout}`)
     .then(res => res.json())
     .then(data => {
 
@@ -2068,7 +2068,7 @@ function submitBooking() {
     return;
   }
 
-  fetch("http://localhost:5000/book-room", {
+  fetch("http://vishwpandhariyatrinivas.onrender.com/book-room", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -2113,7 +2113,7 @@ let index = 0;
 
 // FETCH DATA
 function loadTestimonials() {
-  fetch("http://localhost:5000/testimonials")
+  fetch("http://vishwpandhariyatrinivas.onrender.com/testimonials")
     .then(res => res.json())
     .then(data => {
       testimonials = data.data;
@@ -2230,7 +2230,7 @@ async function submitReview() {
 
 function saveReview(name, location, message, rating, image) {
 
-  fetch("http://localhost:5000/add-testimonial", {
+  fetch("http://vishwpandhariyatrinivas.onrender.com/add-testimonial", {
 
     method: "POST",
 
@@ -2309,7 +2309,7 @@ function submitForm(event) {
   const message =
     document.getElementById("fmsg").value;
 
-  fetch("http://localhost:5000/add-enquiry", {
+  fetch("http://vishwpandhariyatrinivas.onrender.com/add-enquiry", {
 
     method: "POST",
 

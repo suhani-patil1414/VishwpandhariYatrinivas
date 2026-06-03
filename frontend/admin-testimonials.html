@@ -183,7 +183,7 @@
 
 function loadReviews(){
 
-  fetch("http://localhost:5000/testimonials")
+  fetch("http://vishwpandhariyatrinivas.onrender.com/testimonials")
 
   .then(res => res.json())
 
@@ -232,7 +232,7 @@ function deleteReview(id){
 
   if(confirm("Delete this review?")){
 
-    fetch(`http://localhost:5000/delete-testimonial/${id}`,{
+    fetch(`http://vishwpandhariyatrinivas.onrender.com/delete-testimonial/${id}`,{
       method:"DELETE"
     })
 

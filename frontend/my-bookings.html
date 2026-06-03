@@ -422,7 +422,7 @@ function loadBookings(filter = "") {
     return;
   }
 
-  fetch("http://localhost:5000/my-bookings/" + user.id)
+  fetch("http://vishwpandhariyatrinivas.onrender.com/my-bookings/" + user.id)
     .then(res => {
       if (!res.ok) throw new Error("API not working ❌");
       return res.json();
@@ -501,7 +501,7 @@ function loadBookings(filter = "") {
 function cancelBooking(id) {
   if (!confirm("Are you sure to cancel booking? ❌")) return;
 
-  fetch("http://localhost:5000/cancel-booking/" + id, {
+  fetch("http://vishwpandhariyatrinivas.onrender.com/cancel-booking/" + id, {
     method: "DELETE"
   })
     .then(res => res.json())

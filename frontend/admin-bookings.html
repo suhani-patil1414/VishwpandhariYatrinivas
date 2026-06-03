@@ -237,7 +237,7 @@ function formatDate(dateStr) {
 }
 
 function loadBookings() {
-  fetch("http://localhost:5000/all-bookings")
+  fetch("http://vishwpandhariyatrinivas.onrender.com/all-bookings")
     .then(res => res.json())
     .then(data => {
 
@@ -273,7 +273,7 @@ function loadBookings() {
 
 // ================= UPDATE STATUS =================
 function updateStatus(id, status) {
-  fetch(`http://localhost:5000/update-booking/${id}`, {
+  fetch(`http://vishwpandhariyatrinivas.onrender.com/update-booking/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json"
