@@ -36,6 +36,24 @@ app.use(express.urlencoded({
 }));
 // app.use(express.urlencoded({ extended: true })); // 🔥 IMPORTANT
 
+// const transporter = nodemailer.createTransport({
+
+//   service: "gmail",
+
+//   auth: {
+
+//     user: process.env.EMAIL_USER,
+//     pass: process.env.EMAIL_PASS
+
+//   },
+
+//   tls: {
+//     rejectUnauthorized: false
+//   }
+
+// });
+
+
 const transporter = nodemailer.createTransport({
 
   service: "gmail",
@@ -49,6 +67,16 @@ const transporter = nodemailer.createTransport({
 
   tls: {
     rejectUnauthorized: false
+  }
+
+});
+
+transporter.verify((error, success) => {
+
+  if (error) {
+    console.log("SMTP ERROR ❌", error);
+  } else {
+    console.log("SMTP READY ✅");
   }
 
 });
