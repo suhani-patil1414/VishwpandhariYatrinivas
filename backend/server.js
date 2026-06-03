@@ -54,10 +54,14 @@ const transporter = nodemailer.createTransport({
 
 // ✅ DB CONNECTION (POOL BEST)
 const db = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "vishwpandhari_yatrinivas"
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 // ================= REGISTER =================
@@ -981,6 +985,12 @@ app.delete("/delete-enquiry/:id", (req, res) => {
 
     });
 
+});
+
+
+// ================= HOME =================
+app.get("/", (req, res) => {
+  res.send("Vishwpandhari Yatrinivas Server Running ✅");
 });
 
 
