@@ -138,22 +138,49 @@ app.post("/login", (req, res) => {
 
   const sql = "SELECT * FROM users WHERE email=? AND password=?";
   
-  db.query(sql, [email, password], (err, result) => {
-    console.log("USER QUERY RESULT:", result); // 👈 ADD THIS
+//   db.query(sql, [email, password], (err, result) => {
+//     console.log("USER QUERY RESULT:", result); // 👈 ADD THIS
 
-    if (result.length > 0) {
-      res.send({
-        success: true,
-        role: "user",
-        user: result[0]
-      });
-    } else {
-      res.send({
-        success: false,
-        message: "Invalid Credentials ❌"
-      });
-    }
+//     if (result.length > 0) {
+//       res.send({
+//         success: true,
+//         role: "user",
+//         user: result[0]
+//       });
+//     } else {
+//       res.send({
+//         success: false,
+//         message: "Invalid Credentials ❌"
+//       });
+//     }
+//   });
+// });
+
+db.query(sql, [email, password], (err, result) => {
+
+  if (err) {
+    console.log("LOGIN ERROR:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Database Error"
+    });
+  }
+
+  console.log("USER QUERY RESULT:", result);
+
+  if (result.length > 0) {
+    return res.send({
+      success: true,
+      role: "user",
+      user: result[0]
+    });
+  }
+
+  return res.send({
+    success: false,
+    message: "Invalid Credentials ❌"
   });
+});
 });
 
 
